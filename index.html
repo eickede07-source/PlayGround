@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#101a27" />
+  <title>Blockbound — Wilds of Aetherfall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="world" aria-label="3D adventure world"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark"><span></span><span></span><span></span></div><div><b>BLOCKBOUND</b><small>WILDS OF AETHERFALL</small></div></div>
+      <div class="season-chip"><i></i><span>FIELD JOURNAL</span><strong>DAY 01</strong></div>
+      <button class="icon-btn" id="sound-btn" title="Toggle sound">♫</button>
+      <button class="icon-btn" id="menu-btn" title="Menu">☰</button>
+    </header>
+    <section class="location"><div class="location-pin">⌖</div><div><small>YOU ARE EXPLORING</small><h1>Fernlight Meadow</h1></div><span class="weather">☀ &nbsp;Mild</span></section>
+    <aside class="quest-card"><div class="quest-icon">✦</div><div><small>FIELD NOTE <span>01</span></small><b>First steps</b><p>Meet the wilds. Find your first companion.</p><div class="progress-line"><i id="quest-progress"></i></div></div><span class="quest-count" id="quest-count">0/1</span></aside>
+    <div class="mini-map"><div class="map-title">MEADOW <span>N</span></div><div class="map-grid"><i class="map-path"></i><i class="map-water"></i><i class="map-tree t1"></i><i class="map-tree t2"></i><i class="map-tree t3"></i><i class="map-player"></i><i class="map-home">⌂</i></div><div class="map-coords" id="coords">X 08 &nbsp;·&nbsp; Z 12</div></div>
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <div class="interact-prompt" id="interact-prompt"><span>F</span><b>Talk to Mira</b></div>
+    <div class="control-hint"><span>WASD</span> MOVE <i>·</i> <span>SHIFT</span> SPRINT <i>·</i> <span>F</span> INTERACT</div>
+    <div class="party-strip" id="party-strip"><div class="party-label">YOUR CREW <span id="party-count">01 / 06</span></div><div class="party-list" id="party-list"></div></div>
+    <div class="touch-controls" id="touch-controls"><button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button></div>
+    <button class="bag-fab" id="bag-btn"><span>▣</span> SATCHEL <kbd>B</kbd></button>
+    <section class="welcome-screen" id="welcome-screen">
+      <div class="welcome-backdrop"></div><div class="welcome-content">
+        <div class="eyebrow"><span class="eyebrow-line"></span> A VOXEL CREATURE ADVENTURE</div>
+        <div class="welcome-logo"><div class="logo-orb"><span>✦</span></div><h2>BLOCK<span>BOUND</span></h2></div>
+        <p class="welcome-sub">The wilds are full of wonder.<br>Go find your kind of magic.</p>
+        <button class="primary-btn" id="start-btn">BEGIN YOUR JOURNEY <span>↗</span></button>
+        <div class="starter-note"><span class="starter-dots"><i></i><i></i><i></i></span> A new world, a little wild, entirely yours</div>
+        <div class="welcome-foot"><span>✧ &nbsp;EXPLORE</span><span>✧ &nbsp;MEET CREATURES</span><span>✧ &nbsp;MAKE A TEAM</span></div>
+      </div>
+    </section>
+    <section class="dialogue hidden" id="dialogue"><div class="speaker">MIRA <small>FIELD RESEARCHER</small></div><p id="dialogue-text"></p><button id="dialogue-next">CONTINUE <span>↗</span></button></section>
+    <section class="battle-screen hidden" id="battle-screen">
+      <div class="battle-top"><div><small>WILD ENCOUNTER</small><h2 id="battle-title">A wild Spriglet appeared!</h2></div><div class="battle-round">MEADOW <span>·</span> WILD</div></div>
+      <div class="enemy-card battle-creature-card"><div class="creature-avatar" id="enemy-avatar"></div><div class="creature-info"><div class="creature-name"><b id="enemy-name">Spriglet</b><span id="enemy-type">LEAF</span></div><div class="level-label">LV <b id="enemy-level">3</b></div><div class="hp-track"><i id="enemy-hp"></i></div><small class="hp-label" id="enemy-hp-label">HP 18 / 18</small></div></div>
+      <div class="battle-log" id="battle-log">A wild creature stepped out of the tall grass!</div>
+      <div class="ally-card battle-creature-card"><div class="creature-avatar" id="ally-avatar"></div><div class="creature-info"><div class="creature-name"><b id="ally-name">Cindercub</b><span id="ally-type">EMBER</span></div><div class="level-label">LV <b id="ally-level">5</b></div><div class="hp-track"><i id="ally-hp"></i></div><small class="hp-label" id="ally-hp-label">HP 24 / 24</small></div></div>
+      <div class="battle-actions"><div class="battle-tabs"><button class="active" data-tab="moves">✧ MOVES</button><button data-tab="team">♧ TEAM</button><button data-tab="items">▣ ITEMS</button><button data-tab="run">↗ RUN</button></div><div id="battle-options" class="battle-options"></div></div>
+    </section>
+    <section class="drawer hidden" id="bag-drawer"><div class="drawer-head"><div><small>YOUR FIELD KIT</small><h2>Satchel</h2></div><button class="close-btn" data-close="bag-drawer">×</button></div><div class="drawer-tabs"><button class="active" data-bag-tab="items">ITEMS</button><button data-bag-tab="team">YOUR CREW</button><button data-bag-tab="journal">JOURNAL</button></div><div class="drawer-content" id="bag-content"></div></section>
+    <section class="menu-modal hidden" id="menu-modal"><div class="menu-card"><button class="close-btn" data-close="menu-modal">×</button><div class="menu-emblem">✦</div><small>PAUSED IN THE WILDS</small><h2>Take a breather</h2><p>Your adventure saves automatically.</p><button class="menu-option" id="resume-btn">Back to exploring <span>↗</span></button><button class="menu-option" id="save-btn">Save adventure <span>✓</span></button><button class="menu-option danger" id="reset-btn">Start a fresh journey <span>↻</span></button></div></section>
+    <div class="loading-screen" id="loading-screen"><div class="loading-mark">✦</div><span>GROWING A LITTLE WORLD...</span></div>
+  </main>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
